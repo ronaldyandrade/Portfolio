@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ronaldy Andrade | Estrategista Digital</title>
+    <!-- NOVA TIPOGRAFIA PREMIUM -->
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #000000;
+            --accent: #0070ff;
+            --accent-glow: rgba(0, 112, 255, 0.22);
+            --text-main: #ffffff;
+            --text-secondary: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --card-glass: rgba(10, 10, 10, 0.8);
+            --font-main: 'Sora', sans-serif;
+        }
+
+        /* RESET & BASE */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-main); }
+        html { scroll-behavior: smooth; }
+        body { background-color: var(--bg); color: var(--text-main); line-height: 1.6; overflow-x: hidden; width: 100%; }
+
+        /* ANIMAÇÕES DE REVELAÇÃO */
+        .reveal { 
+            opacity: 0; 
+            transform: translateY(30px); 
+            transition: opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1), transform 1.2s cubic-bezier(0.22, 1, 0.36, 1); 
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .delay-1 { transition-delay: 0.2s; }
+        .delay-2 { transition-delay: 0.4s; }
+
+        /* FUNDO COM GLOWS AZUIS */
+        .aurora-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+        .aurora { position: absolute; width: 70vw; height: 70vh; background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%); filter: blur(120px); border-radius: 50%; opacity: 0.7; }
+        .aurora-1 { top: -20%; right: -10%; animation: float 25s infinite alternate; }
+        .aurora-2 { bottom: -20%; left: -10%; animation: float 18s infinite alternate-reverse; }
+        @keyframes float { from { transform: translate(0,0) scale(1); } to { transform: translate(100px, 60px) scale(1.1); } }
+
+        /* HEADER */
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 8%; background: rgba(0,0,0,0.75); backdrop-filter: blur(20px);
+            position: fixed; width: 100%; top: 0; z-index: 1000; border-bottom: 1px solid var(--border);
+        }
+        .logo { font-size: 22px; font-weight: 800; letter-spacing: -1.5px; text-decoration: none; color: #fff; }
+        .logo span { color: var(--accent); }
+        nav a { color: var(--text-secondary); text-decoration: none; margin: 0 15px; font-size: 14px; font-weight: 600; transition: 0.3s; }
+        nav a:hover { color: var(--accent); }
+        .btn-header { background: #fff; color: #000; padding: 10px 24px; border-radius: 12px; font-weight: 700; text-decoration: none; font-size: 14px; transition: 0.3s; text-align: center; }
+        .btn-header:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(255,255,255,0.2); }
+
+        /* HERO - AJUSTE DE TAMANHO FLUIDO */
+        .hero { padding: 220px 8% 120px; text-align: center; display: flex; flex-direction: column; align-items: center; }
+        .hero h1 { 
+            font-size: clamp(2.5rem, 8vw, 6.5rem); font-weight: 800; letter-spacing: -0.05em; line-height: 0.95; margin-bottom: 40px;
+            background: linear-gradient(180deg, #fff 50%, rgba(255,255,255,0.3) 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; padding-bottom: 10px;
+        }
+        .hero h1 span { -webkit-text-fill-color: var(--accent); }
+        .hero p { color: var(--text-secondary); font-size: clamp(1rem, 2vw, 1.3rem); max-width: 800px; margin-bottom: 60px; }
+        
+        .btn-main { 
+            background: var(--accent); color: #fff; padding: 22px 55px; border-radius: 20px; font-weight: 800; font-size: 18px; 
+            text-decoration: none; box-shadow: 0 15px 40px rgba(0, 112, 255, 0.4); transition: 0.4s; text-align: center;
+        }
+        .btn-main:hover { transform: translateY(-5px); box-shadow: 0 20px 60px rgba(0, 112, 255, 0.6); }
+
+        /* SEÇÕES */
+        .section-padding { padding: 100px 8%; }
+        .section-title { font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: -2px; text-align: center; margin-bottom: 60px; line-height: 1.1; font-weight: 800; }
+
+        /* SOBRE MIM */
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        .about-image-placeholder { 
+            border-radius: 40px; border: 1px solid var(--border); aspect-ratio: 1/1.2; 
+            background: linear-gradient(145deg, #0a0a0a 0%, #151515 100%);
+            position: relative; overflow: hidden;
+        }
+
+        /* SERVIÇOS */
+        .services-list { display: flex; flex-direction: column; gap: 30px; }
+        .service-card { 
+            background: var(--card-glass); border: 1px solid var(--border); padding: 50px; border-radius: 40px;
+            display: grid; grid-template-columns: 1fr 2fr; gap: 40px; align-items: flex-start; transition: 0.5s ease;
+        }
+        .service-card:hover { border-color: var(--accent); transform: translateX(10px); background: rgba(0, 112, 255, 0.03); }
+        .service-img-wrapper { width: 100%; border-radius: 20px; overflow: hidden; height: 300px; border: 1px solid var(--border); }
+        .service-img-wrapper img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.5s; }
+        .service-card h3 { font-size: 1.8rem; color: var(--accent); margin-bottom: 10px; font-weight: 700; }
+        .service-card p { color: var(--text-secondary); font-size: 1.1rem; text-align: justify; }
+
+        /* TRABALHOS */
+        .work-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .work-card { background: var(--card-glass); border-radius: 30px; overflow: hidden; border: 1px solid var(--border); cursor: pointer; transition: 0.4s; position: relative; }
+        .work-card:hover { border-color: var(--accent); transform: translateY(-10px); }
+        .work-card img { width: 100%; height: 250px; object-fit: cover; opacity: 0.5; transition: 0.5s; }
+        .work-content { padding: 30px; }
+        .work-content span { color: var(--accent); font-weight: 800; font-size: 12px; text-transform: uppercase; }
+
+        /* FAQ */
+        .faq-container { max-width: 800px; margin: 0 auto; }
+        .faq-item { border-bottom: 1px solid var(--border); padding: 30px 0; cursor: pointer; transition: 0.3s; }
+        .faq-question { display: flex; justify-content: space-between; align-items: center; font-size: 1.2rem; font-weight: 600; gap: 20px; }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; color: var(--text-secondary); margin-top: 0; }
+        .faq-item.active .faq-answer { max-height: 500px; margin-top: 20px; }
+
+        /* CTA FINAL */
+        .cta-final { background: var(--accent); margin: 0 8% 100px; padding: 120px 40px; border-radius: 60px; text-align: center; box-shadow: 0 40px 100px rgba(0, 112, 255, 0.4); position: relative; overflow: hidden; }
+
+        /* MODAL */
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .modal-content { background: #0a0a0a; border: 1px solid var(--border); padding: 40px; border-radius: 40px; max-width: 800px; width: 100%; position: relative; max-height: 90vh; overflow-y: auto; }
+        .close-modal { position: absolute; top: 20px; right: 20px; font-size: 30px; cursor: pointer; color: var(--text-secondary); }
+
+        /* FOOTER */
+        footer { padding: 80px 8% 40px; border-top: 1px solid var(--border); display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; }
+        .footer-col h5 { margin-bottom: 25px; color: #fff; text-transform: uppercase; font-size: 13px; letter-spacing: 2px; }
+        .footer-col ul { list-style: none; }
+        .footer-col li { margin-bottom: 12px; color: var(--text-secondary); font-size: 14px; cursor: pointer; transition: 0.3s; }
+        .footer-col a { color: inherit; text-decoration: none; transition: 0.3s; }
+        .footer-col li:hover, .footer-col a:hover { color: #fff; }
+
+        /* MEDIA QUERIES PARA MOBILE */
+        @media (max-width: 992px) {
+            header { padding: 15px 5%; }
+            header nav { display: none; }
+            .hero { padding: 160px 5% 80px; }
+            .section-padding { padding: 60px 5%; }
+            .about-grid { grid-template-columns: 1fr; gap: 40px; }
+            .service-card { grid-template-columns: 1fr; padding: 30px; }
+            .service-img-wrapper { height: 200px; }
+            .cta-final { margin: 0 5% 60px; padding: 60px 20px; border-radius: 40px; }
+            footer { grid-template-columns: 1fr 1fr; text-align: left; }
+        }
+
+        @media (max-width: 600px) {
+            footer { grid-template-columns: 1fr; text-align: center; }
+            .footer-col:first-child { margin-bottom: 20px; }
+            .btn-main { padding: 18px 40px; width: 100%; }
+            .logo { font-size: 18px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="aurora-container">
+        <div class="aurora aurora-1"></div>
+        <div class="aurora aurora-2"></div>
+    </div>
+
+    <header>
+        <a href="#" class="logo">Ronaldy.<span>Andrade</span></a>
+        <nav>
+            <a href="#servicos">Serviços</a>
+            <a href="#trabalhos">Trabalhos</a>
+            <a href="https://www.linkedin.com/in/ronaldy-andrade" target="_blank">LinkedIn</a>
+            <a href="#faq">FAQ</a>
+        </nav>
+        <a href="https://wa.me/5548996499782?text=Olá,%20vim%20pelo%20seu%20Portfólio" target="_blank" class="btn-header">Falar comigo</a>
+    </header>
+
+    <main>
+        <!-- HERO -->
+        <section class="hero reveal">
+            <h1 class="reveal delay-1">Marketing que <span>impulsiona</span> a sua marca.</h1>
+            <p class="reveal delay-2">Transformo sua presença digital em reconhecimento nacional, gerando mais visibilidade com estratégias de alta retenção, conteúdo de autoridade e anúncios escaláveis, tanto no tráfego orgânico quanto no tráfego pago.</p>
+            <a href="https://wa.me/5548996499782?text=Olá,%20vim%20pelo%20seu%20Portfólio" target="_blank" class="btn-main reveal delay-2">Quero escalar meu negócio</a>
+        </section>
+
+        <!-- SOBRE MIM -->
+        <section id="sobre" class="section-padding about-grid reveal">
+            <div class="about-image-placeholder reveal">
+                <img src="img_1416.png" alt="Foto de Ronaldy Andrade" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div class="about-content">
+                <h2 style="font-size: clamp(2.5rem, 5vw, 3.5rem); letter-spacing: -3px; line-height: 1; margin-bottom: 30px; font-weight: 800;">Estratégia personalizada para quem não aceita o comum.</h2>
+                <p>Sou especialista em marketing de performance e posicionamento digital. Meu objetivo é fazer suas mídias digitais entregarem o melhor tráfego, sendo a fonte principal de notoriedade e conhecimento, entregando um sistema previsível de aquisição de clientes.</p>
+                <div style="display: flex; gap: 40px; margin-top: 40px; flex-wrap: wrap;">
+                    <div><h3 style="font-size: 2.5rem; color: var(--accent); font-weight: 800;">+50k</h3><p style="color:var(--text-secondary)">Geridos em Ads</p></div>
+                    <div><h3 style="font-size: 2.5rem; color: var(--accent); font-weight: 800;">+50</h3><p style="color:var(--text-secondary)">Operações Escaladas</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVIÇOS -->
+        <section id="servicos" class="section-padding reveal">
+            <h2 class="section-title">O que faço de diferente do usual para alcançar resultados mais expressivos</h2>
+            <div class="services-list">
+                <!-- MANTIDO TEXTO INTEGRAL CONFORME SOLICITADO -->
+                <div class="service-card reveal">
+                    <div class="service-img-wrapper"><img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=1000&auto=format&fit=crop"></div>
+                    <div>
+                        <h3>Social Media Estratégico</h3>
+                        <p>Inovação, esse é o ponto que faz um Social Media excepcional se diferenciar dos que fazem mais do mesmo. Hoje, tendo um negócio e querendo fazer com que ele escale e crie visibilidade forte nacionalmente, é necessário fazer o que poucos fazem, é simples porém não é fácil. Exige ideia, pensamento fora do comum e uma animação junto a conhecimento digital. Meu foco é criação e gestão de conteúdos com foco no posicionamento, autoridade e conexão com o público certo. Não se trata apenas de postar ou de atirar para qualquer público, se trata de atingir um público grande e que é o seu público, partindo direto pra conversão. O resultado está na solucào, esse é o foco.</p>
+                    </div>
+                </div>
+
+                <!-- AMPLIADO: TRAFEGO PAGO -->
+                <div class="service-card reveal">
+                    <div class="service-img-wrapper"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1000&auto=format&fit=crop"></div>
+                    <div>
+                        <h3>Tráfego Pago & Performance de Elite</h3>
+                        <p>Minha abordagem em Ads vai muito além de apertar botões no Gerenciador de Anúncios. Trabalho com uma metodologia de escala vertical e horizontal, focada em ROAS (Retorno sobre Gasto em Anúncios) real. Implemento estruturas complexas de remarketing, testes AB de criativos de alta conversão e segmentações baseadas em comportamentos profundos do consumidor. Seja em Meta Ads, Google Ads ou LinkedIn, o foco é transformar investimento em lucro previsível, utilizando inteligência de dados para reduzir o CAC (Custo de Aquisição de Cliente) enquanto aumentamos o volume de vendas.</p>
+                    </div>
+                </div>
+
+                <!-- AMPLIADO: FUNIL DE VENDAS -->
+                <div class="service-card reveal">
+                    <div class="service-img-wrapper"><img src="https://images.unsplash.com/photo-1557838923-2985c318be48?q=80&w=1000&auto=format&fit=crop"></div>
+                    <div>
+                        <h3>Arquitetura de Funis de Vendas Complexos</h3>
+                        <p>Desenvolvo a jornada completa que o seu cliente percorre, desde o primeiro contato com a marca até o checkout. Isso envolve a criação de Landing Pages otimizadas para conversão (CRO), estruturação de iscas digitais para captação de leads qualificados e fluxos de nutrição que educam e preparam o cliente para o momento da compra. Um funil bem estruturado é a diferença entre um negócio que depende da sorte e uma máquina de vendas automática que funciona 24 horas por dia, maximizando o LTV (Lifetime Value) de cada cliente captado.</p>
+                    </div>
+                </div>
+
+                <!-- AMPLIADO: ANALISE DE DADOS -->
+                <div class="service-card reveal">
+                    <div class="service-img-wrapper"><img src="https://images.unsplash.com/photo-1543286386-713bdd548da4?q=80&w=1000&auto=format&fit=crop"></div>
+                    <div>
+                        <h3>Business Intelligence & Análise de Métricas</h3>
+                        <p>No marketing moderno, "achar" não existe. Monitoro cada centavo através de dashboards personalizados no Looker Studio e integração total com Google Analytics 4. Minha análise de BI permite identificar gargalos na sua operação em tempo real: onde as pessoas estão abandonando o carrinho? Qual criativo traz o público com maior poder aquisitivo? Com esses dados, tomamos decisões estratégicas que eliminam desperdícios e garantem que o orçamento de marketing seja aplicado onde ele realmente traz o maior retorno financeiro para a empresa.</p>
+                    </div>
+                </div>
+
+                <!-- AMPLIADO: COPYWRITING -->
+                <div class="service-card reveal">
+                    <div class="service-img-wrapper"><img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=1000&auto=format&fit=crop"></div>
+                    <div>
+                        <h3>Copywriting e Escrita Persuasiva</h3>
+                        <p>Palavras que vendem. Minha estratégia de copy é baseada em gatilhos mentais, psicologia do consumo e quebra de objeções. Escrevo roteiros para VSLs (Video Sales Letters), anúncios de alta retenção e páginas de vendas que conduzem o leitor logicamente até o botão de compra. O objetivo é criar uma narrativa irresistível que não apenas informe, mas desperte o desejo visceral no seu público-alvo, transformando seguidores passivos em clientes ativos e embaixadores da sua marca.</p>
+                    </div>
+                </div>
+
+                <!-- AMPLIADO: CRM -->
+                <div class="service-card reveal">
+                    <div class="service-img-wrapper"><img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=1000&auto=format&fit=crop"></div>
+                    <div>
+                        <h3>Automação de CRM e Recuperação Ativa</h3>
+                        <p>Não deixamos dinheiro na mesa. Implemento sistemas de automação de CRM (Customer Relationship Management) para recuperar vendas perdidas por carrinhos abandonados, boletos não pagos ou leads que esfriaram. Através de fluxos inteligentes no WhatsApp e E-mail Marketing, criamos uma régua de relacionamento que mantém a sua marca presente na mente do consumidor. Essa camada de pós-clique é fundamental para aumentar o faturamento sem precisar gastar mais em anúncios, apenas otimizando a base de contatos que você já possui.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CATÁLOGO DE SUCESSO -->
+        <section id="trabalhos" class="section-padding reveal">
+            <h2 class="section-title">Resultados Reais</h2>
+            <div class="work-grid">
+                <!-- CASES 1 E 2 MANTIDOS INTEGRALMENTE -->
+                <div class="work-card reveal" onclick="openCase('Case 1 — Clínica OralSync', 'Estruturamos criativos simples e objetivos para tráfego pago, incluindo posicionamento digital, e alcançamos resultados expressivos. O objetivo principal era gravar vídeos e gerenciar as mídias sociais, pois esses ganchos digitais poderiam ter triplicado o faturamento além do pago.', '• Criativos claros para público maduro (Odontologia)<br>• Foco em valor do atendimento (Sem preço)<br>• Acompanhamento total de métricas Meta Ads<br><br><b>Resultados de Dezembro:</b><br>• Investimento: R$ 5.500<br>• Leads WhatsApp: 595 (50% efetivo)<br>• Média de 12 novos pacientes/dia<br>• Alto Ticket: Protocolos e Facetas (R$ 10k)', 'Acompanhamento de cada etapa do processo, garantindo experiência completa e satisfação do paciente.')">
+                    <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80&w=800">
+                    <div class="work-content"><span>Performance & Saúde</span><h4>Clínica OralSync</h4></div>
+                </div>
+                <div class="work-card reveal" onclick="openCase('Case 2 — Nutracêuticos & Info-produtora', 'Gerenciamento de tráfego, alcance e conversão para marca de nutracêuticos e infoprodutos.', '• Estruturação de funis de vendas diretas<br>• Posicionamentos específicos para gerar autoridade de venda<br>• Escala de anúncios com foco em ROI real<br>• Integração Estratégica: Tráfego pago + Orgânico para validação.', 'Criação de um systema onde o tráfego pago alimenta o desejo e o posicionamento fecha a conversão.')">
+                    <img src="https://images.unsplash.com/photo-1512069772995-ec65ed45afd6?auto=format&fit=crop&q=80&w=800">
+                    <div class="work-content"><span>E-commerce & Info</span><h4>Nutracêuticos & Info</h4></div>
+                </div>
+
+                <!-- NOVOS CASES ADICIONADOS -->
+                <div class="work-card reveal" onclick="openCase('Case 3 — Lançamento Infoproduto High-Ticket', 'Estratégia completa para lançamento de curso de mentoria empresarial com ticket médio de R$ 5.000.', '• Criação de Landing Pages de alta conversão<br>• Gestão de tráfego para captação de leads qualificados<br>• Estratégia de antecipação no Instagram (Orgânico + Ads)<br>• Automação de grupos de WhatsApp e e-mail marketing.<br><br><b>Resultados:</b><br>• ROI de 8x sobre o investimento em anúncios<br>• Mais de 100 alunos matriculados em 7 dias.', 'Escalabilidade e autoridade construída em tempo recorde.')">
+                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=800">
+                    <div class="work-content"><span>Infoprodutos</span><h4>Mentoria High-Ticket</h4></div>
+                </div>
+                <div class="work-card reveal" onclick="openCase('Case 4 — Escala E-commerce de Moda', 'Otimização de performance para loja virtual com foco em aumento de taxa de conversão e redução de abandono de carrinho.', '• Implementação de Pixel e API de Conversão Meta<br>• Campanhas de catálogo dinâmico e DPA<br>• Fluxos de recuperação de vendas automáticos<br>• Reestruturação do layout da página de produto para CRO.<br><br><b>Resultados:</b><br>• Redução de 40% no CAC<br>• Aumento de 65% no faturamento mensal em 90 dias.', 'Uso intensivo de dados para transformar tráfego em vendas recorrentes.')">
+                    <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=800">
+                    <div class="work-content"><span>E-commerce</span><h4>Moda & Varejo</h4></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ MANTIDO -->
+        <section id="faq" class="section-padding reveal">
+            <h2 class="section-title">Perguntas Frequentes</h2>
+            <div class="faq-container">
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">Como funciona a consultoria? <span>+</span></div>
+                    <div class="faq-answer">Analisamos o seu negócio, definimos as metas e implementamos um plano de ação personalizado focado em resultados rápidos e sustentáveis.</div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">Quanto tempo demora para ver os resultados? <span>+</span></div>
+                    <div class="faq-answer">Campanhas de tráfego pago geram leads nos primeiros dias. Estratégias de escala e posicionamento orgânico costumam atingir maturação entre 30 a 90 dias.</div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">Qual o modelo de pagamento da parceria? <span>+</span></div>
+                    <div class="faq-answer">Trabalhamos com um valor fixo mensal de gestão (fee) para garantir a dedicação estratégica, podendo ser acordado bônus por performance dependendo da escala.</div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">Você atende negócios locais e nacionais? <span>+</span></div>
+                    <div class="faq-answer">Sim. Atendo desde clínicas locais que buscam pacientes na região até infoprodutoras e e-commerces que vendem para todo o Brasil.</div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">Preciso ter um site pronto para começar? <span>+</span></div>
+                    <div class="faq-answer">Não necessariamente. Podemos estruturar landing pages e funis de conversão específicos para as suas campanhas antes de iniciar o tráfego.</div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">Existe contrato de fidelidade? <span>+</span></div>
+                    <div class="faq-answer">Trabalhamos com renovação mensal ou trimestral. Meu foco é entregar resultados para que você queira continuar a parceria por livre espontânea vontade.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA FINAL -->
+        <section id="contato" class="cta-final reveal">
+            <h2 style="font-weight: 800; font-size: clamp(1.5rem, 5vw, 2.5rem);">Pronto para transformar sua presença digital em resultados reais?</h2>
+            <p style="margin: 20px 0 40px; font-size: 1.2rem; opacity: 0.9;">Fale comigo e vamos estruturar a melhor estratégia para o seu negócio.</p>
+            <a href="https://wa.me/5548996499782?text=Olá,%20vim%20pelo%20seu%20Portfólio" target="_blank" class="btn-main" style="background: #fff; color: #000; box-shadow: none;">Falar com o Consultor</a>
+        </section>
+    </main>
+
+    <!-- MODAL -->
+    <div id="caseModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeCase()">&times;</span>
+            <h2 id="caseTitle" style="color: var(--accent); margin-bottom: 20px; font-weight: 800;"></h2>
+            <p id="caseDesc" style="margin-bottom: 30px; color: var(--text-secondary);"></p>
+            <div id="modalDetails" style="background: rgba(255,255,255,0.03); padding: 30px; border-radius: 20px; margin-bottom: 20px;">
+                <h4 id="modalSub" style="margin-bottom: 10px; font-weight: 700;">O que foi feito:</h4>
+                <p id="caseDone" style="color: var(--text-secondary); font-size: 14px; line-height: 1.8;"></p>
+            </div>
+            <div id="modalExtra" style="border-left: 4px solid var(--accent); padding-left: 20px;">
+                <h4 id="modalExtraSub" style="margin-bottom: 5px; font-weight: 700;">Diferencial:</h4>
+                <p id="caseDiff" style="color: #fff; font-weight: 600;"></p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-col">
+            <a href="#" class="logo">Ronaldy.<span>Andrade</span></a>
+            <p style="margin-top: 20px;">Estratégia de elite para marcas que buscam o próximo nível de escala.</p>
+        </div>
+        <div class="footer-col">
+            <h5>Navegação</h5>
+            <ul>
+                <li><a href="#servicos">Serviços</a></li>
+                <li><a href="#trabalhos">Trabalhos</a></li>
+                <li><a href="#sobre">Sobre</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h5>Redes</h5>
+            <ul>
+                <li><a href="https://www.linkedin.com/in/ronaldy-andrade" target="_blank">LinkedIn</a></li>
+                <li><a href="https://wa.me/5548996499782?text=Olá,%20vim%20pelo%20seu%20Portfólio" target="_blank">WhatsApp</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h5>Legal</h5>
+            <ul>
+                <li onclick="openPrivacy()">Privacidade</li>
+                <li onclick="openTerms()">Termos</li>
+            </ul>
+        </div>
+    </footer>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        function toggleFaq(element) {
+            const isActive = element.classList.contains('active');
+            document.querySelectorAll('.faq-item').forEach(item => item.classList.remove('active'));
+            if (!isActive) element.classList.add('active');
+        }
+
+        function openCase(title, desc, done, diff) {
+            document.getElementById('caseTitle').innerText = title;
+            document.getElementById('caseDesc').innerText = desc;
+            document.getElementById('caseDone').innerHTML = done;
+            document.getElementById('caseDiff').innerText = diff;
+            document.getElementById('caseModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function openPrivacy() {
+            openCase('Políticas de Privacidade', 'Proteção de dados e conformidade LGPD.', 'Coletamos dados apenas para atendimento comercial via WhatsApp. Não compartilhamos informações com terceiros.', 'Segurança Total.');
+        }
+
+        function openTerms() {
+            openCase('Termos de Uso', 'Propriedade intelectual e prestação de serviço.', 'Os conteúdos deste site são de propriedade do autor. Resultados variam conforme o negócio.', 'Transparência.');
+        }
+
+        function closeCase() {
+            document.getElementById('caseModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        window.onclick = function(event) { if (event.target == document.getElementById('caseModal')) closeCase(); }
+    </script>
+</body>
+</html>
